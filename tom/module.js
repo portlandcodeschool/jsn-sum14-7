@@ -3,13 +3,22 @@ var http = require('http');
 var url = require('url');
 var interpolate = require('./interpolator');
 
-//data 
-var items = ["mow the lawn", "do the dishes", "scoop the litter box"];
-var contacts = [{name: "Ben", age: 31}, {name: "Steve", age: 29}];
+//data: Should be metadata and chapters. Chapters an array of objects, matadata just an object
+var metadata = {title: "", author: "", subject: "", description: "", publisher: "", rights: "", isbn: "", language: ""};
+var chapters = [{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true },
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }, 
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }, 
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }, 
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }, 
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }, 
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }, 
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }, 
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }, 
+{filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }];
 
 //templates
 var headerPartial =  '<body><head><title>Contacts</title></head><h1>My Contacts</h1>';
-var contactPartial = '<ul><li>name: {{name}} </li><li>age: {{age}} </ul>'; // Must change so each <li> isn't its own <ul>
+var contactPartial = '<ul><li>name: {{name}} </li><li>age: {{age}} </ul>'; 
 var footerPartial =  '<footer>Portland Code School Rules, yo!</footer></body>';
 var contactsPage = '';
 

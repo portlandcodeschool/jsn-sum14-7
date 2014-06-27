@@ -1,0 +1,30 @@
+fieldset#meta {
+  width: auto;
+  margin-bottom: 35px;
+}
+fieldset#meta span.group {
+  margin: 0px 2em 0em 0em;
+}
+fieldset#files {
+  width: 60%;
+  background-color: lightgrey;
+}
+fieldset#files ol {
+  padding: 0px;
+}
+fieldset#files ol li {
+  list-style-type: none;
+  border: 1px solid black;
+  margin: 15px;
+  padding: 5px;
+}
+.filename {
+  float: left;
+  font-family: monospace;
+  margin-right: 9px;
+  background-color: lightgrey;
+  padding: 2px;
+}
+div.chapter {
+  background-color: white;
+}
