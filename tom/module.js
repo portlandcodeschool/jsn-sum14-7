@@ -17,10 +17,12 @@ var chapters = [{filename: "", toc_name: "", nav: false, cover_img: false, nonli
 {filename: "", toc_name: "", nav: false, cover_img: false, nonlinear: false, scripted: false, svg: false, toc: true }];
 
 //templates
-var headerPartial =  '<body><head><title>Contacts</title></head><h1>My Contacts</h1>';
-var contactPartial = '<ul><li>name: {{name}} </li><li>age: {{age}} </ul>'; 
-var footerPartial =  '<footer>Portland Code School Rules, yo!</footer></body>';
-var contactsPage = '';
+var headerPartial =  '<?xml version="1.0" encoding="utf-8"?>\n<html xmlns="http://www.w3.org/1999/xhtml">\n<head>\n<title>index.xhtml</title>\n<link href="template.css" rel="stylesheet" type="text/css" />\n</head>\n\n<body>\n\n\t<form>\n\n\t\t<fieldset id="meta>';
+var metaPartial = '<span class="group"{{label}}: <input type="text" name="{{name}}" /></span>'; 
+var descriptionPartial = '<span class="group">Description:<br /><textarea name="description" rows="3" cols="100" /></span><br />';
+var centerTemplate = '\t\t</fieldset>\n\n\t\t<fieldset id="files"\n\t\t\t<table id="files>\n\n\t\t\t\t<tr>\n\t\t\t\t\t\t<th>File Name</th>\n\t\t\t\t\t\t<th>ToC Name</th>\n\t\t\t\t\t\t<th>Nav</th>\n\t\t\t\t\t\t<th>Cover Image</th>\n\t\t\t\t\t\t<th>Nonlinear</th>\n\t\t\t\t\t\t<th>Scripted</th>\n\t\t\t\t\t\t<th>SVG</th>\n\t\t\t\t\t\t<th>ToC</th>\n\t\t\t\t</tr>';
+var chapterPartial = '\n\t\t\t\t<tr>\n\t\t\t\t\t<td class="filename">{{filename}}</td>\n\t\t\t\t\t<td><input type="text" value="{{toc_name}}" name="toc_name" /></td>\n\n\t\t\t\t\t<td><input type="checkbox" value="cover_img" name="cover_img" /></td>\n\n\t\t\t\t\t<td><input type="checkbox" value="nonlinear" name="nonlinear" /></td>\n\n\t\t\t\t\t<td><input type="checkbox" value="scripted" name="scripted" /></td>\n\n\t\t\t\t\t<td><input type="checkbox" value="svg" name="svg" /></td>\n\n\t\t\t\t\t<td><input type="checkbox" value="toc" name="toc" /></td>\n\t\t\t\t</tr>\n';
+var footerPartial =  '\t\t\t</table>\n\t\t</fieldset>\n\n\t</form>\n\n</body>\n</html>';
 
 //server application
 var server = http.createServer(function (req, res) {
