@@ -15,7 +15,7 @@ var server = http.createServer(function (req, res) {
 				item += chunk;
 			});
 			req.on('end', function() {
-				records.push({youtube:item});
+				records.push({youtube:item, discogs:""});
 				res.writeHead(200, {'Content-Type': 'text/plain'});
 				res.end('Added your jam.\n')
 			});
@@ -26,7 +26,7 @@ var server = http.createServer(function (req, res) {
         res.write(item.youtube +'\n'+ item.discogs+'\n'+'\n' );
       	});
       res.end();
-      		break;
+      	break;
   }	
 });
 
