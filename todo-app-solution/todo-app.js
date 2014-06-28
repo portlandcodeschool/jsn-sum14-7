@@ -1,6 +1,5 @@
 var http = require('http'),
 	url = require('url'),
-	getItems = require('./handle-get'),
 	items = [],
 	completed = [];
 
@@ -9,9 +8,13 @@ var server = http.createServer( function (request, response) {
 
 	switch (request.method) {
 		case 'GET':
-			// Return list of TODO items
 			var header = 'List of TODO items:\n';
+			if (items.length === 0) {
+				header += 'No tasks yet. Add some!\n';
+			}
 			response.write(header);
+			
+			// Return list of TODO items
 			var output = '';
 			items.forEach(function (item, index) {
 				output = (index + 1) + '. ' + item + '\n';
@@ -38,7 +41,7 @@ var server = http.createServer( function (request, response) {
 			});
 			request.on('end', function () {
 				items.push(item);
-				response.end('Added item to the list!');
+				response.end('Added "' + item + '" to the list!');
 			});
 			break;
 		case 'DELETE':
