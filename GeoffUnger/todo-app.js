@@ -8,8 +8,7 @@ partials.todo = "<li><strong>Id:</strong> {{id}} <strong>Description:</strong> {
 partials.footer = "<small>Created by Geoff Unger</small></html>";
 
 var dataStore = [
-    {id: 0, description: "test", due: 1403989999, created: 1403989901},
-    {id: 1, description: "test 2", due: 1403989999, created: 1403989901}
+
 ];
 
 var server = http.createServer(function (req, resp) {
@@ -77,23 +76,7 @@ var server = http.createServer(function (req, resp) {
             var itemFound = false;
             var parsedURL = url.parse(req.url);
             var deleteID = parsedURL.path.split("/")[1];
-            dataStore.map(function(item, index){
 
-                if(item.id == deleteID){
-                    itemFound = true;
-                    dataStore.splice(deleteID, 1);
-                    console.log("setting found to true");
-                }
-            });
-
-                if(itemFound != true){
-                    console.log(itemFound);
-                    resp.statusCode = 400;
-                    resp.end("Item not found");
-                }
-                else{
-                    resp.end("Item with id: " + deleteID  + " deleted.");
-                }
 
         }
             break;
