@@ -47,16 +47,19 @@ var server = http.createServer(function (req, resp) {
         case "PUT":
         {
             var postBody = "";
-            req.on('data'), function(data){
+            req.on('data', function(data){
                 postBody += data;
-            }
-            req.end(function(){
+            });
+            req.on('end',function(){
+
                 var found = false;
+                var foundID = 0;
                 postBody = JSON.parse(postBody);
                 dataStore.map(function(item){
                     if(item.id == postBody.id){
                         item.description = postBody.description;
                         found = true;
+                        foundID = item.id;
                     }
                 });
                 if(!found){
@@ -64,7 +67,7 @@ var server = http.createServer(function (req, resp) {
                     resp.end("Item not found");
                 }
                 else{
-                    resp.end("Item with id: " +  + " updated.");
+                    resp.end("Item with id: " + foundID  + " updated.");
                 }
             });
         }
