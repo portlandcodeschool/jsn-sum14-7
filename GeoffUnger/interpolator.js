@@ -12,7 +12,7 @@ module.exports = function (str, data) {
             value = value(data);
 
         }
-        console.log(value);
+        //console.log(value);
         return value;
     });
 }
