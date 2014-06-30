@@ -48,6 +48,13 @@ var teams = [
           win: false,
           loss: true,
           tie: false
+        },
+        { opponent: "Portugal",
+          date: "06-18-14",
+          score: "1-2",
+          win: false,
+          loss: true,
+          tie: false
         }
       ]
     }
@@ -72,6 +79,50 @@ var server = http.createServer(function (req, res) {
         var responseBody = totalTeamResults.join('\n');
         res.writeHead({'Content-Type': 'text/html'});
         res.end(responseBody);
+      }
+
+      if (req.method === 'POST') {
+        var result = '';
+        req.setEncoding('utf8');
+        req.on('data', function (chunk) {
+          result += chunk;
+        });
+        req.on('end', function() {
+          var resultObject = JSON.parse(result);
+          if (!resultObject.team || !resultObject.matches) {
+            res.end('You need to include a team and a result in your submission.');
+          } else {
+            var requestTeam = resultObject.team;
+            var matchResult = resultObject.matches;
+            for (i = 0; i < teams.length; i++) {
+              for(var prop in teams[i]) {
+                if(teams[i].hasOwnProperty(prop)) {
+                  if(teams[i][prop] === requestTeam) { //team already exists, so add the score to it
+                    var correcti = i;
+                    for (j = 0; j < matchResult.length; j++) {
+                      teams[i].matches.push(matchResult[j]);
+                      if (matchResult[j].win === true) {
+                        teams[i].wins += 1;
+                      } else if (matchResult[j].tie === true) {
+                        teams[i].ties += 1;
+                      } else {
+                        teams[i].losses += 1;
+                      }
+                    }
+                    // function addAllMatches(element, index, arr) { //this didn't work :( teams[i].matches.length got the wrong length on line 77
+                    //   arr.push(matchResult[index]);
+                    // }
+                    // teams[i].matches.forEach(addAllMatches);
+                    res.writeHead({'Content-Type': 'text/html'});
+                    res.end('OK: Match result added');
+                  }
+                } else { //team doesn't exist, so add it
+
+                }
+              }
+            }
+          }
+        });
       }
     }
 
