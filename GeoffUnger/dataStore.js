@@ -6,18 +6,13 @@
  */
 
 module.exports = function () {
-    var data = [
-        {id: 0, description: "JS homework", due: 1403989999, created: 1403989901},
-        {id: 1, description: "Test subwoofers", due: 1403989999, created: 1403989901},
-        {id:2, description: "Subaru oil change", due: 1403989999, created: 1403989901}
-    ];
-    var currentID = 3;
+    var data = [];
+    var currentID = 1;
     this.addItem = function (description, dateDue) {
         var todo = {};
         dateDue = dateDue.split("/");
-        dateDueObject = new Date(dateDue[2], dateDue[0], dateDue[1]);
+        todo.due = new Date((dateDue[2]), dateDue[0] - 1, dateDue[1]);
         todo.created = Date.now();
-        todo.due = Date.getTime(dateDueObject);
         todo.description = description;
         todo.id = currentID;
         data.push(todo);
@@ -29,7 +24,7 @@ module.exports = function () {
         data.map(function (item, index) {
             if (item.id == id) {
                 itemFound = true;
-                dataStore.splice(deleteID, 1);
+                data.splice(id - 1, 1);
             }
         });
 
@@ -41,28 +36,22 @@ module.exports = function () {
         }
     }
     this.updateItem = function (id, description, dateDue) {
-        var itemFound = false;
-        data.map(function(item){
-            if(item.id == id){
-                itemFound = true;
-                if(description){
-                    item.description = description;
-                }
-                if(dateDue){
-                    item.due = dateDue;
-                }
-            }
-        })
-        if(itemFound) return true;
+
+        if (data[id]) {
+            data[id].description = description;
+            data[dateDue] = dateDue;
+            return true;
+        }
         else return false;
     }
+
     this.getItem = function (id) {
-        if(id){
+        if (id) {
             return data[id];
         }
-        else{
+        else {
             dataArray = [];
-            data.forEach(function(item){
+            data.forEach(function (item) {
                 dataArray.push(item);
             })
             return dataArray;
