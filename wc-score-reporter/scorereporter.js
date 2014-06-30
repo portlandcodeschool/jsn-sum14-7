@@ -1,5 +1,10 @@
 var http = require('http');
 var url = require('url');
+var interpolate = require('./interpolator');
+
+var headerPartial = '<html><head><title>World Cup Score Reporter</title><link href="http://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type="text/css"><link href="main.css" rel="stylesheet" type="text/css"></head><body><header><nav><ul><li><a href="./">Home</a></li><li><a href="./results">Detailed Results</a></li></ul></nav><h1>World Cup Score Reporter</h1></header>';
+var homePartial = '<div class="container"><h2>Team Summaries:</h2></div>';
+var footerPartial = '<footer>Based off of Portland Code School\'s To-Do app example</footer></body></html>';
 
 var teams = [
     { team: "Germany",
@@ -76,7 +81,7 @@ var server = http.createServer(function (req, res) {
             totalTeamResults.push(teams[i].matches[j].score.toString()+' vs '+teams[i].matches[j].opponent.toString()+' on '+teams[i].matches[j].date.toString());
           }
         }
-        var responseBody = totalTeamResults.join('\n');
+        var responseBody = headerPartial + totalTeamResults.join('\n') + footerPartial;
         res.writeHead({'Content-Type': 'text/html'});
         res.end(responseBody);
       }
@@ -135,7 +140,7 @@ var server = http.createServer(function (req, res) {
           }
           return teamsAndRecords.join('\n');
         }
-        var responseBody = parseTeamData(teams);
+        var responseBody = headerPartial + parseTeamData(teams) + footerPartial;
         res.writeHead({'Content-Type': 'text/html'});
         res.end(responseBody);
       }
