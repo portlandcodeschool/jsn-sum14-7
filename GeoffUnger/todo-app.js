@@ -6,7 +6,7 @@ var Datastore = require('./dataStore.js');
 var ds = new Datastore;
 
 var partials = {};
-partials.header = "<html><header><h1>Welcome to Todo-App!</h1></header>";
+partials.header = '<html><head><link rel="stylesheet" type="text/css" href="todo-app.css"></head><h1>Welcome to Todo-App!</h1>';
 partials.todo = "<li><strong>Id:</strong> {{id}} <strong>Description:</strong> {{description}} <strong>Due date:</strong> {{due}}</li>";
 partials.footer = "<small>Created by Geoff Unger</small></html>";
 
