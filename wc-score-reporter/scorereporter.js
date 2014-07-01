@@ -1,10 +1,11 @@
 var http = require('http');
 var url = require('url');
+var fs = require('fs');
 var interpolate = require('./interpolator');
 
-var headerPartial = '<html><head><title>World Cup Score Reporter</title><link href="http://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type="text/css"><link href="main.css" rel="stylesheet" type="text/css"></head><body><header><nav><ul><li><a href="./">Home</a></li><li><a href="./results">Detailed Results</a></li></ul></nav><h1>World Cup Score Reporter</h1></header>';
+var headerPartial = '<html><head><title>World Cup Score Reporter</title><link href="http://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type="text/css"><link rel="stylesheet" type="text/css" href="main.css"></head><body><header><nav><ul><li><a href="./">Home</a></li><li><a href="./results">Detailed Results</a></li></ul></nav><h1>World Cup Score Reporter</h1></header>';
 var homePartial = '<div class="container"><h2>Team Summaries:</h2></div>';
-var footerPartial = '<footer>Based off of Portland Code School\'s To-Do app example</footer></body></html>';
+var footerPartial = '<footer>Based off of Portland Code School\'s To-Do app example</footer></body>';
 
 var teams = [
     { team: "Germany",
@@ -71,6 +72,16 @@ var server = http.createServer(function (req, res) {
     
     var pathRequested = url.parse(req.url, true).pathname;
     var queryParam = url.parse(req.url, true).query;
+
+    if (pathRequested === '/main.css') {
+      if (req.method === 'GET') {
+        fs.readFile('main.css', function(err, data) {
+          if (err) throw err;
+          res.writeHead({'Content-Type': 'text/css'});
+          res.end(data);
+        });
+      }
+    }
 
     if (pathRequested === '/results') {
       if (req.method === 'GET') {
