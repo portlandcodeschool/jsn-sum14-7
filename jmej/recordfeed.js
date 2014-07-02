@@ -6,6 +6,7 @@ var interpolate = require('./interpolator');
 
 var records = [];
 
+
 //var records = [{discogs: "120181", youtube: "JL92HkP96uU"}, {discogs: "4940085", youtube: "9uR0LJ_m6rY"}] - prepopulated array just for testing
 
 //templates
@@ -14,17 +15,22 @@ var recordsPartial = '<ul><li><iframe width="420" height="315" src="//www.youtub
 var footerPartial =  '<footer>jams.</footer></body></html>';
 var recordsPage = '';
 
+
 //getting releases from discogs - only works if wantlist is public
 
 var wantList = {}; // this gets filled with the full discogs JSON wantlist data
 var user = "jmejia";
+var pages = 1;
+var currentPage = 2;
 var client = discogs({api_key: 'foo4711'});  //that api key came from the discogs node module. no idea who owns it.
 
 
 var getIds = function(callback){
-	client.get('/users/'+user+'/wants', function(err, data) {
+	records = [];
+	client.get('/users/'+user+'/wants?page='+currentPage, function(err, data) {
 		var wantArr = [];
 	    wantList = data;  // this is the full discogs JSON wantlist data
+	    pages = wantList.pagination.pages;
 	    wantList.wants.forEach(function (item, index){ //this grabs the discogs id of every release in the discogs wantlist
 	    	wantArr.push(item.id);
 	    	});
@@ -38,7 +44,7 @@ var getVids = function(arr){
     		if (vids){
     		records.push({youtube:vids.videos[1].uri.slice(-11), discogs:item}); //this adds objects for everything fetched from discogs to the records array
     		}
-    		//console.log(wantList);
+    		//console.log(blah);
 		});		
 	});
 };
@@ -50,6 +56,8 @@ getIds(getVids);
 
 
 var server = http.createServer(function (req, res) {
+  var queryObject = url.parse(req.url,true).query;
+  currentPage = queryObject.page;
 	var pathRequested = url.parse(req.url, true).pathname;
 	switch (req.method){
 		case 'POST':
@@ -66,8 +74,8 @@ var server = http.createServer(function (req, res) {
 		break;
 			
     	case 'GET':
+    	
     	recordsPage = headerPartial;
-
       	records.forEach(function(item, index) {
         recordsPage += interpolate(recordsPartial, item);
      		});
