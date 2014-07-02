@@ -9,7 +9,7 @@ var consolidate = require('consolidate');
 // bring in route handler functions
 var indexRoute = require('./routes/index');
 var todosRoute = require('./routes/todos');
-// var completedRoute = require('./routes/completed-todos');
+var completedRoute = require('./routes/completed-todos');
 
 
 // start express
@@ -33,10 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // express routes
 app.get('/', indexRoute);
-app.get('/todos', todosRoute.get);
-app.del('todos/:id', todosRoute.del);
-app.post('todos/', todosRoute.post);
-// app.get('/completed-todos', completedRoute);
+app.use('/todos', todosRoute);
+app.get('/completed-todos', completedRoute);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
@@ -69,5 +67,8 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
-module.exports = app;
+app.set('port', process.env.PORT || 3000);
+app.listen(app.get('port'), function () {
+    console.log('Express server listening on port # ' + app.get('port'));
+});
+// module.exports = app;
