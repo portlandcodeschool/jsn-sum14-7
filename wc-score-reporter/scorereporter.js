@@ -3,9 +3,12 @@ var url = require('url');
 var fs = require('fs');
 var interpolate = require('./interpolator');
 
-var headerPartial = '<html><head><title>World Cup Score Reporter</title><link href="http://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type="text/css"><link rel="stylesheet" type="text/css" href="main.css"></head><body><header><nav><ul><li><a href="./">Home</a></li><li><a href="./results">Detailed Results</a></li></ul></nav><h1>World Cup Score Reporter</h1></header>';
-var homePartial = '<div class="container"><h2>Team Summaries:</h2></div>';
-var footerPartial = '<footer>Based off of Portland Code School\'s To-Do app example</footer></body>';
+var headerPartial = '<html><head><title>World Cup Score Reporter</title><link href="http://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type="text/css"><link rel="stylesheet" type="text/css" href="main.css"></head><body><header><div class="container"><nav><ul><li><a href="./">Home</a></li><li><a href="./results">Detailed Results</a></li></ul></nav><h1>World Cup Score Reporter</h1></div></header>';
+var homePartialTop = '<div class="container"><h2 class="main-title">Team Summaries:</h2><ul class="team-results">';
+var homeResults = '<li><h3 class="main-title">{{team}}:<h3></li><li>{{wins}}-{{losses}}-{{ties}}</li>';
+var resultsPartialTop = '<div class="container"><h2 class="main-title">Detailed Match Results:</h2>';
+var partialBottom = '</ul></div>';
+var footerPartial = '<footer><div class="container"><span class="small-text">Based off of Portland Code School\'s To-Do app example</span></div></footer></body>';
 
 var teams = [
     { team: "Germany",
@@ -92,7 +95,7 @@ var server = http.createServer(function (req, res) {
             totalTeamResults.push(teams[i].matches[j].score.toString()+' vs '+teams[i].matches[j].opponent.toString()+' on '+teams[i].matches[j].date.toString());
           }
         }
-        var responseBody = headerPartial + totalTeamResults.join('\n') + footerPartial;
+        var responseBody = headerPartial + resultsPartialTop + totalTeamResults.join('\n') + partialBottom + footerPartial;
         res.writeHead({'Content-Type': 'text/html'});
         res.end(responseBody);
       }
@@ -133,7 +136,7 @@ var server = http.createServer(function (req, res) {
                     res.end('OK: Match result added');
                   }
                 } else { //team doesn't exist, so add it
-
+                  teams.push(resultObject);
                 }
               }
             }
@@ -144,14 +147,11 @@ var server = http.createServer(function (req, res) {
 
     if (pathRequested === '/') {
       if (req.method === 'GET') {
-        function parseTeamData(data) {
-          var teamsAndRecords = [];
-          for (i = 0; i < data.length; i++) {
-            teamsAndRecords.push(data[i].team.toString()+': '+data[i].wins.toString()+'-'+data[i].losses.toString()+'-'+data[i].ties.toString());
-          }
-          return teamsAndRecords.join('\n');
-        }
-        var responseBody = headerPartial + parseTeamData(teams) + footerPartial;
+        var homeResult = '';
+        teams.forEach(function(item) {
+          homeResult += interpolate(homeResults, item);
+        });
+        var responseBody = headerPartial + homePartialTop + homeResult + partialBottom + footerPartial;
         res.writeHead({'Content-Type': 'text/html'});
         res.end(responseBody);
       }
