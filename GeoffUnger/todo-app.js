@@ -12,14 +12,19 @@ partials.footer = "<small>Created by Geoff Unger</small></html>";
 
 var server = http.createServer(function (req, resp) {
     var method = req.method;
+    var query = url.parse(req.url, true).query;
     var todos = ds.getItem();
     switch (method) {
         case "GET":
         {
+
             resp.writeHead(200, {'Content-Type': 'text/html'});
             resp.write(partials.header);
             resp.write("<ul>");
+            if (query.search){
 
+                todos = ds.search(query.search);
+            }
             todos.map(function (item) {
                 var listItem = partials.todo;
                 listItem = interpolate(listItem,item);

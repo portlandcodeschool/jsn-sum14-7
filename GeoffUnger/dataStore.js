@@ -57,4 +57,15 @@ module.exports = function () {
             return dataArray;
         }
     }
+    this.search = function(searchString){
+        var search = new RegExp(searchString);
+        var result = [];
+        data.map(function(item){
+            if(search.test(item.description)){
+                result.push(item);
+                console.log(item.description + " added to results");
+            }
+        });
+        return result;
+    }
 }
