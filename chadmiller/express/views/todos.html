@@ -1,0 +1,38 @@
+{{>header}}
+
+<div class="container">
+  <h1>>>> My Todos <<<</h1>
+  <br>
+  <div class="alert">   
+    <strong>{{message}}</strong>
+  </div> 
+
+  <ul class="unstyled">
+    {{#todos}}
+    <li>
+      <input type="checkbox" id="{{id}}" onClick="deleteTodo(this);">
+      {{title}} - <span class="label label-info">{{dueDate}}</span>
+    </li>
+    {{/todos}}
+  </ul>
+
+  <form onSubmit="return addTodo(this);">
+    <div class="control-group">
+      <label class="control-label">Add a todo</label>
+      <div class="controls">
+        <input type="text" name="title">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Select a due date</label>
+      <select name="dueDate" placeholder="Due date">
+        <option>today</option>
+        <option>tomorrow</option>
+        <option>next week</option>
+      </select>
+    </div>
+    <button type="submit" class="btn">Submit</button>
+  </form>
+</div>
+
+{{>footer}}
