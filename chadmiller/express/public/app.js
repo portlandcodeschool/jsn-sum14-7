@@ -29,3 +29,4 @@ function deleteTodo(todo) {
     window.location.reload();
   });
 }
+
