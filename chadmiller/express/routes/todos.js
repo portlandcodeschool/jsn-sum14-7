@@ -27,7 +27,7 @@ function deleteTodo(id) {
 }
 
 TodosRoute.get('/', function(req, res, next) {
-  var message = (!todos.length ? "You have no todos." : "You've got stuff to do.");
+  var message = (!todos.length ? "You have no todos." : "You have stuff to do.");
 
   res.render('todos', {
     partials: {
