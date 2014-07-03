@@ -34,7 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // express routes
 app.get('/', indexRoute);
 app.use('/todos', todosRoute);
-app.get('/completed-todos', completedRoute);
+app.use('/completed-todos', completedRoute);
+// app.get('/completed-todos', completedRoute);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
