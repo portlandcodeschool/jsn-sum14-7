@@ -18,12 +18,15 @@ var server = http.createServer(function (req, res) {
     if (req.method === 'POST') {
 
       var item = '';
+      var person = '';
       req.setEncoding('utf8');
       req.on('data', function (chunk) {
-        item += chunk;
+        person += chunk.subString(0,chunk.indexOf(':'));
+        item += chuck.substring(indexOf(':'));
       });
       req.on('end', function () {
         items.push(item);
+        who.push(person);
         res.writeHead({'Content-Type': 'text/plain'});
         res.end('OK: Added your todo\n');
       });
@@ -55,15 +58,19 @@ var server = http.createServer(function (req, res) {
   if (pathRequested.slice(0,9) === '/contacts') {
 
     if (req.method === 'POST') {
+
+      var item = '';
       var person = '';
       req.setEncoding('utf8');
       req.on('data', function (chunk) {
-        person += chunk;
+        person += chunk.subString(0,chunk.indexOf(':'));
+        item += chuck.substring(indexOf(':'));
       });
       req.on('end', function () {
-        contacts.push(JSON.parse(person));
+        items.push(item);
+        who.push(person);
         res.writeHead({'Content-Type': 'text/plain'});
-        res.end('OK: Added a new contact\n');
+        res.end('OK: Added your todo\n');
       });
     } else if (req.method === 'GET') {
       res.writeHead({'Content-Type': 'application/json'});
